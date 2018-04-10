@@ -2,12 +2,15 @@
 
 # Copyright Eric C. Weig, 2018
 
-# usage example for Adair county news 'bash csv.sh xt7z348gg47v ada 1919-01-02'
+# take commandline arguments and produce valid csv and rename given pdf files for loading into the Internet Archive for KDNP
+
+# usage example for Adair county news 'bash csv.sh xt7z348gg47v ada 1919-01-02 01'
 
 # set needed variables
 ark="$1"
 code="$2"
 mdate="$3"
+medition="$4"
 csv=".csv"
 csvfile="$ark$csv"
 
@@ -1026,3 +1029,19 @@ mkdir -p /c/csv_output/$code
 # move json output to title dir
 mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/$csvfile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/csv_output/$code/$csvfile"
 
+# set variables for pdf handling
+IFS='-' read -r -a array <<< "$mdate"
+mday="${array[2]}"
+mmonth="${array[1]}"
+myear="${array[0]}"
+pdf=".pdf"
+pdffile="$code$myear$mmonth$mday$medition$pdf"
+newpdf="$ark$pdf"
+
+# rename pdf file if it exists
+if [ ! -f /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$pdffile ]; then
+    echo "File not found!"
+    echo "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$pdffile"
+else
+    mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$pdffile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$newpdf"
+fi
