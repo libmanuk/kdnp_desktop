@@ -12,6 +12,7 @@ iapath="/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabach/$code"
 bat=".bat"
 pdf=".pdf"
 txt=".txt"
+done="_done"
 arkstorepath="/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/arkstore/ark_store_00001.txt"
 file_path="$path"
 file="$path$code$txt"
@@ -54,7 +55,7 @@ echo "bash csv.sh $ark $code $date" >>csv.bat
 
 # add to queue file section
 
-echo "/var/opt/iaload/get_pdf.sh $code $ark kdnp,/var/opt/iaload/ias3upload.pl -l /var/opt/iaload/batch/$code/$ark.csv,mv /var/opt/iaload/batch/$code/$ark.csv /var/opt/iaload/batch/$code/$ark_done.csv,rm /var/opt/iaload/batch/$code/$ark.pdf,echo \"\$(date) $code $ark\" >> /var/opt/iaload/log/2018_log_file.txt,sleep 30m" >>queue.txt
+echo "/var/opt/iaload/get_pdf.sh $code $ark kdnp,/var/opt/iaload/ias3upload.pl -l /var/opt/iaload/batch/$code/$ark.csv,mv /var/opt/iaload/batch/$code/$ark.csv /var/opt/iaload/batch/$code/$ark$done.csv,rm /var/opt/iaload/batch/$code/$ark.pdf,echo \"\$(date) $code $ark\" >> /var/opt/iaload/log/2018_log_file.txt,sleep 30m" >>queue.txt
 
 sed -i -e 's/,/\n/g' queue.txt
 
