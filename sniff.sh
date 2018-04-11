@@ -58,6 +58,8 @@ echo "/var/opt/iaload/get_pdf.sh $code $ark kdnp,/var/opt/iaload/ias3upload.pl -
 
 sed -i -e 's/,/\n/g' queue.txt
 
+dos2unix queue.txt
+
 # add to pv generator file section
 echo "php /home/libmanuk/public_html/cgi-bin/json2kdnp.php $code $ark" >>generator.txt
 
