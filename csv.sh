@@ -1020,8 +1020,8 @@ else
      echo "Unknown title code"
 fi
 
-echo "item,file,mediatype,collection,title,creator,language,description,contributor,date,subject[0],licenseurl,serialurl\n
-$ark,$ark.pdf,texts,kentuckynewspapers,"$mcollection, $mdate","$mcollection",eng,"Kentucky Digital Newspaper Program at University of Kentucky Libraries, Lexington, Kentucky","$mpublisher",$mdate,Kentucky--History,"Copyright is retained by the publisher.",http://chronicalingamerica.loc.gov/lccn/$mlccn" >$csvfile
+echo "item,file,mediatype,collection,title,creator,language,description,contributor,date,subject[0],licenseurl,serialurl
+$ark,$ark.pdf,texts,kentuckynewspapers,"\"$mcollection, $mdate\"","\"$mcollection\"",eng,"\"Kentucky Digital Newspaper Program at University of Kentucky Libraries, Lexington, Kentucky\"","\"$mpublisher\"",$mdate,Kentucky--History,"Copyright is retained by the publisher.",http://chronicalingamerica.loc.gov/lccn/$mlccn" >$csvfile
 
 # create title dir if not exist
 mkdir -p /c/csv_output/$code
@@ -1039,9 +1039,10 @@ pdffile="$code$myear$mmonth$mday$medition$pdf"
 newpdf="$ark$pdf"
 
 # rename pdf file if it exists
-if [ ! -f /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$pdffile ]; then
+if [ ! -f /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile ]; then
     echo "File not found!"
-    echo "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$pdffile"
+    echo "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile"
 else
-    mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$pdffile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/$code/$newpdf"
+    mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$newpdf"
+    mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/csv_output/$code/$csvfile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$csvfile"
 fi
