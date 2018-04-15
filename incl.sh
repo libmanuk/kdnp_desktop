@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Copyright Eric C. Weig, 2018
+# This is newspaper metadata in flat file format.
+# This file is used by csv.sh and json.sh to lookup required metadata.
 
 #collection name variables
 if [ "$code" = "ada" ]; then
