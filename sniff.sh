@@ -31,7 +31,6 @@ else
 echo "file list found"
 fi
 
-
 # generate batch file for csv.sh
 # get line from file list
 codeline=$(head -n 1 $file)
@@ -52,6 +51,9 @@ echo "$ark"
 
 # add line to csv processor
 echo "bash csv.sh $ark $code $date" >>csv.bat
+
+# add line to json processor 
+echo "bash json.sh $ark $code" >>json.bat
 
 # add to queue file section
 
