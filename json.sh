@@ -65,3 +65,6 @@ mkdir -p /c/json_output/$code
 # move json output to title dir
 mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/$jsonfile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/json_output/$code/$jsonfile"
 
+# clean the room
+shopt -s extglob
+rm !(*.txt|*.sh|*.bat)
