@@ -8,7 +8,8 @@ mkdir $dipark
 mkdir -p /c/$dipark/
 metspath=$1/$aipark/data/mets.xml
 tiffpath=$1/$aipark/data/
-cp -pv $metspath $dipark/mets.xml
+#cp -pv $metspath $dipark/mets.xml
+
 file="$dipark/dirlist.txt"
 
 # get dir listing
@@ -30,6 +31,32 @@ codeline=$(head -n 1 $file)
 
 if [ ! "$codeline" ]; then
     echo "file list is empty"
+    rm $file
+metadata=$(<$metspath)
+mdate=$(sed -n 's|<dc:date>\(.*\)</dc:date>|\1|p' <<<"$metadata")
+mid=$(sed -n 's|<mets:altRecordID TYPE=\"DLXS\">\(.*\)</mets:altRecordID>|\1|p' <<<"$metadata")
+#sep=_
+#echo "$mdate" >> "$dipark/$mdate$sep$mid.txt"
+IFS='_' read -r -a array <<< "$mid"
+medition="${array[0]: -2}"
+
+# set needed variables
+ark="$dipark"
+code="${mid:0:3}"
+mdate="$mdate"
+csv=".csv"
+csvfile="$ark$csv"
+
+echo "$code"
+
+# require file
+source $(dirname $0)/incl.sh
+
+echo "item,file,mediatype,collection,title,creator,language,description,contributor,date,subject[0],licenseurl,serialurl
+$ark,$ark.pdf,texts,kentuckynewspapers,"\"$mcollection, $mdate\"","\"$mcollection\"",eng,"\"Kentucky Digital Newspaper Program at University of Kentucky Libraries, Lexington, Kentucky\"","\"$mpublisher\"",$mdate,Kentucky--History,"Copyright is retained by the publisher.",http://chronicalingamerica.loc.gov/lccn/$mlccn" >$csvfile
+
+mv $csvfile $dipark/$csvfile
+
     exit
 
 else
@@ -40,8 +67,6 @@ cp $tiffpath$codeline $dipark/$codeline
     x=$((filecount-1))
 
 fi
-
-done
 
 
 
