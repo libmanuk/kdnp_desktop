@@ -57,6 +57,13 @@ $ark,$ark.pdf,texts,kentuckynewspapers,"\"$mcollection, $mdate\"","\"$mcollectio
 
 mv $csvfile $dipark/$csvfile
 
+echo performing file conversions ....
+magick mogrify -format pdf $dipark/*.tif
+pdftk $dipark/*.pdf cat output $dipark/$ark.pdf
+mv $dipark/$ark.pdf pdf/$ark.pdf
+mv $dipark/$csvfile csv/$csvfile
+rm -rf $dipark
+
     exit
 
 else
@@ -66,9 +73,11 @@ echo "$(tail -n +2 $file)" > $file
 cp $tiffpath$codeline $dipark/$codeline
     x=$((filecount-1))
 
+
+
 fi
 
-
+done
 
 
 
