@@ -31,6 +31,7 @@ else
 echo "file list found"
 fi
 
+
 # generate batch file for csv.sh
 # get line from file list
 codeline=$(head -n 1 $file)
@@ -49,6 +50,15 @@ ark=$(head -n 1 $arkstorepath)
 echo "$(tail -n +2 $arkstorepath)" > $arkstorepath
 echo "$ark"
 
+# add lines to repair processor
+pdfext=".pdf"
+fix="_fixed"
+old="_old"
+echo "pdftk $ark$pdfext output $ark$fix$pdfext" >>repair.bat
+echo "ren $ark$pdfext $ark$old$pdfext" >>repair.bat
+echo "ren $ark$fix$pdfext $ark$pdfext" >>repair.bat
+echo "del $ark$old$pdfext" >>repair.bat
+
 # add line to csv processor
 echo "bash csv.sh $ark $code $date" >>csv.bat
 
@@ -57,7 +67,7 @@ echo "bash json.sh $ark $code" >>json.bat
 
 # add to queue file section
 
-echo "/var/opt/iaload/get_pdf.sh $code $ark kdnp,/var/opt/iaload/ias3upload.pl -l /var/opt/iaload/batch/$code/$ark.csv,mv /var/opt/iaload/batch/$code/$ark.csv /var/opt/iaload/batch/$code/$ark$done.csv,rm /var/opt/iaload/batch/$code/$ark.pdf,echo \"\$(date) $code $ark\" >> /var/opt/iaload/log/2018_log_file.txt,sleep 30m" >>queue.txt
+echo "/home/nunncen1/public_html/cgi-bin/ias3upload.pl -l /home/nunncen1/public_html/cgi-bin/batch/$code/$ark.csv,mv /home/nunncen1/public_html/cgi-bin/batch/$code/$ark.csv /home/nunncen1/public_html/cgi-bin/batch/$code/$ark$done.csv,mv /home/nunncen1/public_html/cgi-bin/batch/$code/$ark.pdf /home/nunncen1/public_html/cgi-bin/batch/$code/$ark$done.pdf,echo \"\$(date) $code $ark\" >> /home/nunncen1/public_html/cgi-bin/log/2018_log_file.txt,sleep 10m" >>queue.txt
 
 sed -i -e 's/,/\n/g' queue.txt
 
@@ -74,3 +84,8 @@ mkdir /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code
 
 # move media file to ready
 mv $pdfpath$code/$codeline$pdf /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$codeline$pdf
+
+# clean the room
+
+shopt -s extglob
+rm !(*.txt|*.sh|*.bat)
