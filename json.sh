@@ -53,7 +53,14 @@ myear="${array[0]}"
 mpages=$(sed -n 's|<imagecount>\(.*\)</imagecount>|\1|p' <<<"$metadata")
 mpages="${mpages#"${mpages%%[![:space:]]*}"}"
 
-echo "{\"lccn_link_s\":\"http:\/\/chroniclingamerica.loc.gov\/lccn\/$mlccn\/\",\"aip_t\":\"\",\"id\":\"$ark\",\"lccn_t\":\"$mlccn\",\"printurl_t\":\"https:\/\/archive.org\/download\/$ark\/$ark.pdf\",\"thumbnailurl_t\":\"https:\/\/archive.org\/download\/$ark\/$ark.gif\",\"objecturl_t\":\"https:\/\/archive.org\/stream\/$ark#page\/n0\/mode\/1up\",\"abbreviation_t\":\"$code\",\"control_t\":\"$code$myear$mmonth$mday 01\",\"text\":\"date ($mdate) newspaper_issue $text\",\"edition_s\":\"01\",\"collection_s\":\"$mcollection\",\"title_t\":\"$mcollection\",\"region_s\":\"$mregion\",\"county_s\":\"$mcounty\",\"doctitle_t\":\"$mcollection, $mdate\",\"pubplace_t\":\"$mpubplace\",\"publisher_t\":\"$mpublisher\",\"month_s\":\"$mmonth\",\"year_s\":\"$myear\",\"day_s\":\"$mday\",\"pages_s\":\"$mpages\",\"funders_t\":\"University of Kentucky\",\"partners_t\":\"\"}" >$jsonfile
+# create decade metadata and store as a variable
+mdecade="${myear:0:3}"
+mdecadezero=0
+
+# create edition metadata and store as a variable
+medition=01
+
+echo "{\"lccn_link_s\":\"http:\/\/chroniclingamerica.loc.gov\/lccn\/$mlccn\/\",\"aip_t\":\"\",\"id\":\"$ark\",\"lccn_t\":\"$mlccn\",\"printurl_t\":\"https:\/\/archive.org\/download\/$ark\/$ark.pdf\",\"thumbnailurl_t\":\"https:\/\/archive.org\/download\/$ark\/$ark.gif\",\"objecturl_t\":\"https:\/\/archive.org\/stream\/$ark#page\/n0\/mode\/1up\",\"abbreviation_t\":\"$code\",\"control_t\":\"$code$myear$mmonth$mday$medition\",\"text\":\"date ($mdate) newspaper_issue $text\",\"edition_s\":\"01\",\"collection_s\":\"$mcollection\",\"title_t\":\"$mcollection\",\"region_s\":\"$mregion\",\"county_s\":\"$mcounty\",\"doctitle_t\":\"$mcollection, $mdate\",\"pubplace_t\":\"$mpubplace\",\"publisher_t\":\"$mpublisher\",\"month_s\":\"$mmonth\",\"decade_s\":\"$mdecade$mdecadezero\",\"year_s\":\"$myear\",\"day_s\":\"$mday\",\"pages_s\":\"$mpages\",\"funders_t\":\"University of Kentucky\",\"partners_t\":\"\"}" >$jsonfile
 
 # remove metadata and full-text files to cleanup
 rm $metafile
