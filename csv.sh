@@ -18,14 +18,14 @@ csvfile="$ark$csv"
 source $(dirname $0)/incl.sh
 
 
-echo "item,file,mediatype,collection,title,creator,language,description,contributor,date,subject[0],licenseurl,serialurl
+echo "identifier,file,mediatype,collection,title,creator,language,description,contributor,date,subject[0],licenseurl,serialurl
 $ark,$ark.pdf,texts,kentuckynewspapers,"\"$mcollection, $mdate\"","\"$mcollection\"",eng,"\"Kentucky Digital Newspaper Program at University of Kentucky Libraries, Lexington, Kentucky\"","\"$mpublisher\"",$mdate,Kentucky--History,"Copyright is retained by the publisher.",http://chronicalingamerica.loc.gov/lccn/$mlccn" >$csvfile
 
 # create title dir if not exist
 mkdir -p /c/csv_output/$code
 
 # move json output to title dir
-mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/$csvfile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/csv_output/$code/$csvfile"
+mv /c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/$csvfile "/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/csv_output/$code/$csvfile"
 
 # set variables for pdf handling
 IFS='-' read -r -a array <<< "$mdate"
@@ -37,10 +37,10 @@ pdffile="$code$myear$mmonth$mday$medition$pdf"
 newpdf="$ark$pdf"
 
 # rename pdf file if it exists
-if [ ! -f /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile ]; then
+if [ ! -f /c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile ]; then
     echo "File not found!"
-    echo "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile"
+    echo "/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile"
 else
-    mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$newpdf"
-    mv /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/csv_output/$code/$csvfile "/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$csvfile"
+    mv /c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code/$pdffile "/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code/$newpdf"
+    mv /c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/csv_output/$code/$csvfile "/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code/$csvfile"
 fi
