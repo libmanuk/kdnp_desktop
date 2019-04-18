@@ -5,7 +5,7 @@ Set of Windows desktop tools (DOS and Bash) for generating various metadata for 
 
 Some of these scripts use both ImageMagick (https://www.imagemagick.org/) for Windows and PDFtk (https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/) for Windows from the DOS commandline.
 
-These scripts require the use of Cygwin or Gow within Windows OS.
+These scripts require the use of Cygwin or Gow (https://github.com/bmatzelle/gow/wiki) within Windows OS.
 
 These scripts use Python for Windows (https://www.python.org/downloads/windows/) and the internetarchive client library (https://archive.readme.io/docs/bulk-upload).
 
