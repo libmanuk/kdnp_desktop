@@ -7,6 +7,8 @@ Some of these scripts use both ImageMagick (https://www.imagemagick.org/) for Wi
 
 These scripts require the use of Cygwin or Gow within Windows OS.
 
+These scripts use Python for Windows (https://www.python.org/downloads/windows/) and the internetarchive client library (https://archive.readme.io/docs/bulk-upload).
+
 ## Process Overview
 
 ## License
