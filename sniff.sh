@@ -5,18 +5,21 @@
 # set needed variables
 
 code="$1"
-pdfpath="/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/pdfs/"
-path="/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/"
+pdfpath="/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/pdfs/"
+logpath="/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/LOG"
+path="/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/"
 search_path="$pdfpath$code"
-iapath="/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabach/$code"
+iapath="/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabach/$code"
 bat=".bat"
 pdf=".pdf"
 txt=".txt"
 done="_done"
-arkstorepath="/c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/arkstore/ark_store_00001.txt"
+arkstorepath="/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/arkstore/ark_store_00001.txt"
 file_path="$path"
 file="$path$code$txt"
 lines="lines.txt"
+cdate=$(<date.txt)
+
 
 # get dir listing
 ls $search_path > $file
@@ -54,36 +57,42 @@ echo "$ark"
 pdfext=".pdf"
 fix="_fixed"
 old="_old"
-echo "pdftk $ark$pdfext output $ark$fix$pdfext" >>repair.bat
-echo "ren $ark$pdfext $ark$old$pdfext" >>repair.bat
-echo "ren $ark$fix$pdfext $ark$pdfext" >>repair.bat
-echo "del $ark$old$pdfext" >>repair.bat
+echo "pdftk $ark$pdfext output $ark$fix$pdfext" >>repair_$code.bat
+echo "ren $ark$pdfext $ark$old$pdfext" >>repair_$code.bat
+echo "ren $ark$fix$pdfext $ark$pdfext" >>repair_$code.bat
+echo "del $ark$old$pdfext" >>repair_$code.bat
 
 # add line to csv processor
 echo "bash csv.sh $ark $code $date" >>csv.bat
 
 # add line to json processor 
-echo "bash json.sh $ark $code" >>json.bat
+echo "bash json.sh $ark $code" >>json_$code.bat
 
 # add to queue file section
+ia upload --spreadsheet=kd9kw57d354c.csv
+echo "ia upload --spreadsheet=$ark.csv,echo $cdate $code $ark >> $logpath/2019_log_file.txt,sleep 10m" >>queue_$code.txt
 
-echo "/home/nunncen1/public_html/cgi-bin/ias3upload.pl -l /home/nunncen1/public_html/cgi-bin/batch/$code/$ark.csv,mv /home/nunncen1/public_html/cgi-bin/batch/$code/$ark.csv /home/nunncen1/public_html/cgi-bin/batch/$code/$ark$done.csv,mv /home/nunncen1/public_html/cgi-bin/batch/$code/$ark.pdf /home/nunncen1/public_html/cgi-bin/batch/$code/$ark$done.pdf,echo \"\$(date) $code $ark\" >> /home/nunncen1/public_html/cgi-bin/log/2018_log_file.txt,sleep 10m" >>queue.txt
-
-sed -i -e 's/,/\n/g' queue.txt
+sed -i -e 's/,/\n/g' queue_$code.txt
 
 dos2unix queue.txt
 
 # add to pv generator file section
-echo "php /home/libmanuk/public_html/cgi-bin/json2kdnp.php $code $ark" >>generator.txt
+echo "php /home/libmanuk/public_html/cgi-bin/json2kdnp.php $code $ark" >>generator_$code.txt
 
 fi
 
 # create ia batch dir if not exist
 echo "$iapath"
-mkdir /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code
+
+if [ -d "/c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code" ] 
+then
+    echo "" 
+else
+    mkdir /c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code
+fi
 
 # move media file to ready
-mv $pdfpath$code/$codeline$pdf /c/Users/eweig/Downloads/KDNP/DESKTOP_PROCESSING/iabatch/$code/$codeline$pdf
+mv $pdfpath$code/$codeline$pdf /c/Users/eweig/Downloads/TOOLS/KDNP/DESKTOP_PROCESSING/iabatch/$code/$codeline$pdf
 
 # clean the room
 
